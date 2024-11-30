@@ -19,7 +19,7 @@ model payments {
   date_time  DateTime? @db.Date
   status     String?   @db.VarChar(20)
   method     String?   @db.VarChar(30)
-  ref_       Int?
+  ref_       String?   @db.VarChar(50)
   orders     orders?   @relation(fields: [id_order], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

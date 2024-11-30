@@ -7,7 +7,7 @@ export const orderEvents = async(socket:Socket,io:any) => {
 
  
 // Fetch all orders and emit a JSON response with all data
-socket.on('client:order-request', async () => await orderEvents.getOrder());
+socket.on('client:orders-request', async () => await orderEvents.getOrder());
 
 // Create a new order using orderData.
 // Once created, emits 'server:orders-online' to update all orders
@@ -20,7 +20,7 @@ socket.on('client:order-create', async (orderData) => {
 
 // Get orders with a payment status of "Confirmado"
 // Emits 'server:order-kitchen' with the relevant orders for kitchen. Its status is "Cocinando"
-socket.on('client:order-kitchen-request', async () => await orderEvents.getOrderKitchen());
+socket.on('client:orders-kitchen-request', async () => await orderEvents.getOrderKitchen());
 
 // Confirm the reference for a specific order (idOrder)
 // Updates the order status to "Cocinando" and payment status to "Confirmado"

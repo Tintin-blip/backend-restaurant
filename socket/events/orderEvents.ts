@@ -34,7 +34,7 @@ export class orderEvent {
     public async getOrderKitchen() { 
         try{
             const orders = await this.orderHelper.orderKitchen();
-            this.io.emit("server:order-kitchen",orders);
+            this.io.emit("server:orders-kitchen",orders);
 
          }catch(err) { 
             console.error(err);

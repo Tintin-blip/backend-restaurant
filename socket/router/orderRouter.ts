@@ -1,27 +1,44 @@
 import { Socket } from "socket.io";
 import { orderEvent } from "../events/orderEvents";
-import NodeCache from "node-cache";
 import { cache } from "../../app";
 
 export const orderEvents = async(socket:Socket,io:any) => {
     const orderEvents = new orderEvent(socket,io,cache)
 
-    socket.on('client:order-request', async () =>  await orderEvents.getOrder() );
+ 
+// Fetch all orders and emit a JSON response with all data
+socket.on('client:order-request', async () => await orderEvents.getOrder());
 
-    socket.on('client:order-create', async (orderData) =>  { 
-        
-        await orderEvents.createOrder(orderData);
-    }
-     );
+// Create a new order using orderData.
+// Once created, emits 'server:orders-online' to update all orders
+// and 'server:upgrade-order' to the specific client with the changes status
+// the status that it's created is "En espera"
+socket.on('client:order-create', async (orderData) => {
+    await orderEvents.createOrder(orderData);
+});
 
-    socket.on('client:order-kitchen', async () => await orderEvents.getOrderKitchen());
 
-    socket.on('client:order-confirm-ref', async (idOrder) => await orderEvents.confirmRef(idOrder));
+// Get orders with a payment status of "Confirmado"
+// Emits 'server:order-kitchen' with the relevant orders for kitchen. Its status is "En cocina"
+socket.on('client:order-kitchen-request', async () => await orderEvents.getOrderKitchen());
 
-    socket.on('client:order-kitchen-complete', async (idOrder) => await orderEvents.orderToDelivery(idOrder))
+// Confirm the reference for a specific order (idOrder)
+// Updates the order status to "Cooking" and payment status to "Confirmado"
+// Emits both 'server:order-kitchen' and 'server:upgrade-order' to notify the changes.
+socket.on('client:order-confirm-ref', async (idOrder) => await orderEvents.confirmRef(idOrder));
 
-    socket.on('client:order-finished', async (idOrder) => await orderEvents.orderFinished(idOrder))
+// Update an order's status to "En via"
+// Emits 'server:upgrade-order' to the affected client with the updates.
+socket.on('client:order-kitchen-complete', async (idOrder) => await orderEvents.orderToDelivery(idOrder));
 
-    socket.on('client:reconnect', async (ci) => await orderEvents.handleReconnection(ci));
+// Mark an order (idOrder) as "Finalizado"
+// Updates its status and emits 'server:upgrade-order' to the specified client.
+socket.on('client:order-finished', async (idOrder) => await orderEvents.orderFinished(idOrder));
 
+// Handle a client's reconnection (identified by ci).
+// Emits 'server:reconnected' to confirm successful reconnection and
+// 'server:upgrade-order' to sync the client's state.
+socket.on('client:reconnect', async (ci) => await orderEvents.handleReconnection(ci));
 };
+
+// all sockets emit 'server-error', listen to this event everytime 

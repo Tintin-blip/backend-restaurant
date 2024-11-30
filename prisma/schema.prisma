@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model table {
+  id      Int      @id @default(autoincrement())
+  status  Boolean?
+  pedidos orders[]
+}
+
+model payments {
+  id_payment Int       @id @default(autoincrement())
+  id_order   Int?      @unique
+  date_time  DateTime? @db.Date
+  status     String?   @db.VarChar(20)
+  method     String?   @db.VarChar(30)
+  ref_       Int?
+  orders     orders?   @relation(fields: [id_order], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model orders {
+  id             Int             @id @default(autoincrement())
+  id_client      Int?
+  id_table       Int?
+  status         String          @db.VarChar(20)
+  ci             Int
+  date           DateTime        @default(now())
+  order_type     String          @db.VarChar(20)
+  order_dish     order_dish[]
+  clients_online clients_online? @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "id_client")
+  table          table?          @relation(fields: [id_table], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payment        payments?
+}
+
+model order_dish {
+  id        Int       @id @default(autoincrement())
+  id_order  Int?
+  id_dish   Int?
+  date_time DateTime? @default(now()) @db.Timestamp(6)
+  dish      dish?     @relation(fields: [id_dish], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orders    orders?   @relation(fields: [id_order], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model dish {
+  id          Int          @id @default(autoincrement())
+  name        String?      @db.VarChar(30)
+  price       Decimal?     @db.Decimal(5, 2)
+  description String?      @db.VarChar(100)
+  amount      Int
+  category    String?      @db.VarChar(30)
+  img         String?      @db.VarChar(255)
+  order_dish  order_dish[]
+}
+
+model users {
+  id_user  Int     @id @default(autoincrement())
+  name     String? @db.VarChar(20)
+  password String? @db.VarChar(100)
+  rol      String? @db.VarChar(20)
+}
+
+model clients_online {
+  id_client    Int      @id @default(autoincrement())
+  address      String   @db.VarChar(100)
+  localization String   @db.VarChar(100)
+  tlf          String   @db.VarChar(30)
+  orders       orders[]
+}

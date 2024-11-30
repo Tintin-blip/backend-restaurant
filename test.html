@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Usuario</title>
+    <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Crear Usuario</h1>
+    <button id="createUserButton">Crear Usuario</button>
+
+    <script>
+        // Conectar al servidor Socket.IO
+        const socket = io('http://localhost:3000');
+
+        // Agregar un listener al botón para crear un usuario
+        const createUserButton = document.getElementById('createUserButton');
+        createUserButton.addEventListener('click', () => {
+            // Aquí defines los datos del nuevo usuario
+            const userData = {
+                
+    name:'Platito',
+    price:2,
+    description:'Platote',
+    amount:3,
+    category:'Plato',
+            };
+
+            // Emitir el evento 'user_create' con los datos del nuevo usuario
+            socket.emit('client:dish_create', userData);
+            console.log('Evento user_create emitido:', userData);
+        });
+    </script>
+</body>
+</html>

@@ -31,7 +31,7 @@ export class Server {
         this.app = express();
         this.port = process.env.PORT || 3000;
         this.path = {
-            api: "/api",
+            api: "/api/v1",
         };
         this.cache = cache;
         

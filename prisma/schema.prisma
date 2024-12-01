@@ -69,5 +69,6 @@ model clients_online {
   address      String   @db.VarChar(100)
   localization String   @db.VarChar(100)
   tlf          String   @db.VarChar(30)
+  name         String?  @db.VarChar(40)
   orders       orders[]
 }

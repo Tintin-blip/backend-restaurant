@@ -8,6 +8,11 @@ export class orderHelper {
     constructor(cache:NodeCache) {
         this.cache = cache
     };  
+
+
+    // take idOrder
+    // Change status of orders. Orders.status = "Cocinando". payments.status = "Confirmado"
+    // if detect any error, throw error
     public async verifyRef(idOrder:number) { 
         try{
             await prisma.payments.update( { 
@@ -40,8 +45,10 @@ export class orderHelper {
                 const client = await prisma.clients_online.create( {
                     data: { 
                         address:orderOnline.address,
+                        name:orderOnline.name,
                         tlf:orderOnline.tlf,
-                        localization:orderOnline.localization
+                        localization:orderOnline.localization,
+                        
 
                     }
                 })
@@ -169,7 +176,8 @@ export class orderHelper {
                 clients_online: { 
                     select: { 
                         tlf:true,
-                        address:true
+                        address:true,
+                        name:true
                     }
                 },
                 order_dish: { 
@@ -195,6 +203,11 @@ export class orderHelper {
             where: {
                 payment:{
                     status:'Pendiente'
+                },
+                AND: {
+                    status:{
+                        notIn: ['Finalizado']
+                    }
                 }
                },
         });
@@ -203,7 +216,8 @@ export class orderHelper {
             ...order,   
             client_online: order.clients_online ? {
                 tlf: Number(order.clients_online.tlf),
-                address: order.clients_online.address
+                address: order.clients_online.address,
+                name:order.clients_online.name
             } : undefined,
             order_dish:countOccurrences(order.order_dish),
             total_price: order.order_dish.reduce((acc,va) => acc +(va.dish?.price instanceof Decimal ? va.dish.price.toNumber() : va.dish?.price || 0), 0,
@@ -233,7 +247,8 @@ export class orderHelper {
                 clients_online: { 
                     select: { 
                         tlf:true,
-                        address:true
+                        address:true,
+                        name:true
                     }
                 },
                 order_dish: { 
@@ -250,7 +265,8 @@ export class orderHelper {
                 },
                 payment: {
                     select: { 
-                        status:true
+                        status:true,
+                        ref_:true
                     }
                 }
     
@@ -260,16 +276,36 @@ export class orderHelper {
             }
         });
         
-         const result= orders.map(order => ({
-            ...order,   
-            client_online: order.clients_online ? {
-                tlf: Number(order.clients_online.tlf),
-                address: order.clients_online.address
-            } : undefined,
-            order_dish:countOccurrences(order.order_dish),
-            IVA: '16%',
-            total_price: (order.order_dish.reduce((acc,va) => acc +(va.dish?.price instanceof Decimal ? va.dish.price.toNumber() : va.dish?.price || 0), 0,) *0.16).toFixed(2)
-          }));
+        const result = orders.map(order => {
+
+            const { order_dish } = order; // Destructura para mayor claridad
+        
+            // Realiza todos los cálculos en una sola pasada
+            const { totalPrice } = order_dish.reduce((acc, va) => {
+                const price = va.dish?.price instanceof Decimal ? va.dish.price.toNumber() : va.dish?.price || 0;
+                acc.totalPrice += price; // Sumar al total
+                return acc;
+            }, { totalPrice: 0 });
+            const price = totalPrice.toFixed(2);
+            const ivaValue = (totalPrice * 0.16).toFixed(2);
+            const total_price = (parseFloat(price) + parseFloat(ivaValue)).toFixed(2);
+            
+            return {
+                ...order,
+                client_online: order.clients_online ? {
+                    tlf: order.clients_online.tlf,
+                    address: order.clients_online.address,
+                    name:order.clients_online.name
+                } : undefined,
+                order_dish: countOccurrences(order_dish),
+                price: price,
+                IVA: ivaValue,
+                total_price: total_price
+            };
+
+        },
+    );
+
         return result;
             
 
@@ -332,7 +368,7 @@ export class orderHelper {
 }
 
 
-
+// count occurrences and create summation
 function countOccurrences(orderDishes: OrderDish[]): DishSummary[] {
     const countMap: Record<string, { quantity: number; price: number }> = {};
   

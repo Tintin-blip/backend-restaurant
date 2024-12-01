@@ -211,20 +211,36 @@ export class orderHelper {
                 }
                },
         });
+        const result = orders.map(order => {
+
+            const { order_dish } = order; // Destructura para mayor claridad
         
-         const result= orders.map(order => ({
-            ...order,   
-            client_online: order.clients_online ? {
-                tlf: Number(order.clients_online.tlf),
-                address: order.clients_online.address,
-                name:order.clients_online.name
-            } : undefined,
-            order_dish:countOccurrences(order.order_dish),
-            total_price: order.order_dish.reduce((acc,va) => acc +(va.dish?.price instanceof Decimal ? va.dish.price.toNumber() : va.dish?.price || 0), 0,
-        )
-          }));
+            // Realiza todos los cálculos en una sola pasada
+            const { totalPrice } = order_dish.reduce((acc, va) => {
+                const price = va.dish?.price instanceof Decimal ? va.dish.price.toNumber() : va.dish?.price || 0;
+                acc.totalPrice += price; // Sumar al total
+                return acc;
+            }, { totalPrice: 0 });
+            const price = totalPrice.toFixed(2);
+            const ivaValue = (totalPrice * 0.16).toFixed(2);
+            const total_price = (parseFloat(price) + parseFloat(ivaValue)).toFixed(2);
+            
+            return {
+                ...order,
+                client_online: order.clients_online ? {
+                    tlf: order.clients_online.tlf,
+                    address: order.clients_online.address,
+                    name:order.clients_online.name
+                } : undefined,
+                order_dish: countOccurrences(order_dish),
+                price: price,
+                IVA: ivaValue,
+                total_price: total_price
+            };
+
+        })
         
-          
+      
         return result;
     
         }catch (error) {

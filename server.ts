@@ -6,7 +6,6 @@ import { config } from 'dotenv';
 import routerUser  from './REST/routers/userRouter'
 import routerDish from './REST/routers/dishRouter'
 import { Server as serverSocket }   from 'socket.io'
-import {registerUserEvents} from './REST/controllers/userSocket'
 import {dishRequest} from './socket/router/dishRouter'
 import {orderEvents} from './socket/router/orderRouter'
 import http from 'http'
@@ -16,8 +15,8 @@ config();
 
 // Opciones de CORS
 const corsOptions = {
-    origin: true, // Habilita todas las IP para conectarse
-    credentials: true, // Incluye credenciales
+    origin: true, // all ip
+    credentials: true,  // credentials
 };
 
 export class Server {
@@ -54,7 +53,6 @@ export class Server {
 
     private socketEvents() {
         
-
         this.io.on('connection', (socket) => {
             console.log('socket connected', socket.id);
          
@@ -62,12 +60,11 @@ export class Server {
                 console.log('Cliente desconectado:', socket.id);
             });
 
-
-
         dishRequest(socket,this.io);
         orderEvents(socket,this.io);
 
-          });
+        }
+      );
     }
     
     private routes() { 

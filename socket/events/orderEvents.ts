@@ -118,8 +118,9 @@ export class orderEvent {
         }
     }
 
-    public async orderToDelivery(idOrder:number) { 
+    public async orderToDelivery(orderData: {idOrder:number}) { 
         try { 
+            const {idOrder} = orderData
             await this.orderHelper.updateOrderStatusToDelivery(idOrder);
             await this.orderUpdateStatusToClient(idOrder);
 
@@ -130,8 +131,9 @@ export class orderEvent {
         }
     }
 
-    public async orderFinished(idOrder:number) { 
+    public async orderFinished(orderData:{idOrder:number}) { 
         try { 
+            const {idOrder} = orderData
             await this.orderHelper.updateOrderToFinished(idOrder);
             await this.orderUpdateStatusToClient(idOrder);
             this.cache.del(idOrder)

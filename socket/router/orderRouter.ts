@@ -6,8 +6,7 @@ import { validateFields } from "../middlewares/validateSchemas";
 
 export const orderEvents = async(socket:Socket,io:any) => {
     const orderEvents = new orderEvent(socket,io,cache)
-
- 
+    
 // Fetch all orders and emit a JSON response with all data
 socket.on('client:orders-request', async () => await orderEvents.getOrder());
 
@@ -20,7 +19,6 @@ socket.on('client:order-create', async (orderData) => {
     if(error) return; // stop function
     await orderEvents.createOrder(orderData);
 });
-
 
 // Get orders with a payment status of "Confirmado"
 // Emits 'server:order-kitchen' with the relevant orders for kitchen. Its status is "Cocinando"

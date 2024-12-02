@@ -153,7 +153,7 @@ export class orderHelper {
                     id:idOrder
                 },
                 data: { 
-                    status:'Entregado'
+                    status:'Finalizado'
                 },
             })
         }catch (error) {

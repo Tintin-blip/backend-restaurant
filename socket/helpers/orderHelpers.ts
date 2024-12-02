@@ -227,7 +227,7 @@ export class orderHelper {
             
             return {
                 ...order,
-                client_online: order.clients_online ? {
+                clients_online: order.clients_online ? {
                     tlf: order.clients_online.tlf,
                     address: order.clients_online.address,
                     name:order.clients_online.name

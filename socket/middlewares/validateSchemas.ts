@@ -2,8 +2,7 @@ import { Socket } from "socket.io";
 
 // Middleware 
 export async function validateSchema(schema: any, data: any): Promise<string | null> {
-    console.log(data)
-    const { error } = schema.validate(data);
+    const { error } = schema.validate(data,{ convert: false });
     
     return error ? error.details[0].message : null; // return null or error
 }

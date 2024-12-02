@@ -7,7 +7,7 @@ const orderDishSchema = joi.object({
 
 
 export const orderCreateSchema = joi.object({
-    ci: joi.number().required(),
+    ci: joi.number().integer().required(),
     name:joi.string().max(40).required(),
     address:joi.string().max(100).required(),
     localization:joi.string().max(100).required(),
@@ -18,14 +18,17 @@ export const orderCreateSchema = joi.object({
     order_dish: joi.array().items(orderDishSchema)
     }) 
 
-export const idOrderSchema = joi.object({
-    id_order: joi.number().required()
+export const idOrderSchema = joi.number().integer().required().messages( { 
+        'number.base':'"id" must be a number',
+        'number.integer': '"id" must be a integer',
+        'any.required': '"id" is required' 
 })
 
-export const ciSchema = joi.object({
-    ci: joi.number().required()
-})
-
+export const ciSchema = joi.number().integer().required().messages({
+    'number.base': '"ci" must be a number', 
+    'number.integer': '"ci" must be a integer', 
+    'any.required': '"ci" is required' 
+});
 /*
  
 

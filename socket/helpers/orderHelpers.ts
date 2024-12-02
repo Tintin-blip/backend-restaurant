@@ -116,6 +116,11 @@ export class orderHelper {
                 where: { 
                     payment: { 
                         status:'Confirmado'
+                    },
+                    AND: {
+                        status:{ 
+                            notIn:['En vía','En espera','Finalizado']
+                        }
                     }
                 }
            

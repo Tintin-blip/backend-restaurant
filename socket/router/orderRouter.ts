@@ -21,7 +21,7 @@ socket.on('client:order-create', async (orderData) => {
 });
 
 // Get orders with a payment status of "Confirmado"
-// Emits 'server:order-kitchen' with the relevant orders for kitchen. Its status is "Cocinando"
+// Emits 'server:orders-kitchen' with the relevant orders for kitchen. Its status is "Cocinando"
 socket.on('client:orders-kitchen-request', async () => await orderEvents.getOrderKitchen());
 
 // Confirm the reference for a specific order (idOrder)

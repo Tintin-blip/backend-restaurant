@@ -144,6 +144,7 @@ export class dishHelper {
                     price:dish.price,
                     description:dish.description,
                     category:dish.category,
+                    amount:dish.amount,
                     img:dish.img
                 }
             })

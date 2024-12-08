@@ -14,7 +14,7 @@ routerDish.post('/dish/create',
     check("description","description is required").notEmpty().isString().isLength({max:100}),
     check("amount","amount is required").notEmpty().isInt(),
     check("category","category is required").notEmpty().isString().isLength({max:30}),
-    check("img","img is required").optional().isLength({max:255}),
+    check("img").optional().isLength({max:255}),
 
     validateFields,
     
@@ -25,5 +25,10 @@ routerDish.patch('/dish/add_amount/',
     check("id_dish","id_dish is required").notEmpty().isInt(),
     check("amount","amount is required").notEmpty().isInt(),
     dish.addAmountDish);
+
+routerDish.delete('/dish/delete', 
+    check("id_dish","id_dish is required").notEmpty().isNumeric().isInt(),
+    dish.deleteDishWithId
+)
 
 export default routerDish

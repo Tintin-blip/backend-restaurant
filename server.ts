@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 import routerUser  from './REST/routers/userRouter'
 import routerDish from './REST/routers/dishRouter'
+import routerStadistics from './REST/routers/stadisticsRouter'
 import { Server as serverSocket }   from 'socket.io'
 import {dishRequest} from './socket/router/dishRouter'
 import {orderEvents} from './socket/router/orderRouter'
@@ -70,6 +71,7 @@ export class Server {
     private routes() { 
         this.app.use(`${this.path.api}`, routerUser);
         this.app.use(`${this.path.api}`, routerDish)
+        this.app.use(`${this.path.api}`,routerStadistics )
     }
 
     public listen() {

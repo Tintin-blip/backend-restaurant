@@ -125,7 +125,14 @@ export class orderHelper {
                 }
            
             })
-            return orders
+            const result = orders.map(order => {
+                return {
+                    ...order,
+                    order_dish: countOccurrences(order.order_dish),
+                    
+                };
+            })
+            return result
         } catch (error) {
             console.error("Error creating order:", error);
             throw error; // Maneja el error según tu lógica

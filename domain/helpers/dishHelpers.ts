@@ -1,5 +1,5 @@
 import { dish, PrismaClient } from '@prisma/client'
-import { Dish } from '../models/interfaces';
+import { Dish, DishEdit } from '../models/interfaces';
 const prisma = new PrismaClient()
 
 export class dishHelper { 
@@ -129,6 +129,27 @@ export class dishHelper {
         } catch (err) {
             console.error(err);
             throw err;
+        }
+    }
+
+    public async updateDish(id_dish:number,dish:DishEdit): Promise <void> { 
+        try { 
+            await prisma.dish.update({
+                where: {
+                    id:id_dish
+                },
+
+                data: {
+                    name:dish.name,
+                    price:dish.price,
+                    description:dish.description,
+                    category:dish.category,
+                    img:dish.img
+                }
+            })
+            
+        }catch(err) {
+            console.error(err); throw err
         }
     }
 }

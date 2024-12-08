@@ -62,6 +62,7 @@ model users {
   name     String? @db.VarChar(20)
   password String? @db.VarChar(100)
   rol      String? @db.VarChar(20)
+  ci       BigInt?
 }
 
 model clients_online {

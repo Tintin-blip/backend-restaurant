@@ -36,25 +36,15 @@ export class UserHelper  {
         }
     }
 
-    /*
-    public async getUserById(id: number): Promise<User> {
-        try {
-            const result = await db.getPool().query('SELECT * FROM clients WHERE id_client = $1', [id]);
-            return result.rows[0] || null;
-        } catch (err) {
-            console.error('Error al obtener el usuario', err);
-            throw new Error('Error en la base de datos');
-        }
-    }*/
-
     public async getNameAndMatchPassword(signIn:signIn) { 
         try { 
             let {name,password} = signIn;
-            const query = await prisma.users.findFirstOrThrow({where:{name:name},select: {password:true},})
+            const query = await prisma.users.findFirstOrThrow({where:{name:name},select: {password:true,rol:true},})
             if(query == null ){ 
                 return Error('Users no exists')
             }
             this.auth.passwordMatch(password,query.password);
+            return query.rol
             
         }catch(err:any) { 
             console.log(err)

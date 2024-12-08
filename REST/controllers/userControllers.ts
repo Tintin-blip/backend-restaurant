@@ -40,13 +40,13 @@ export class controlersUser  {
     public  signInController = async(req:Request, res:Response) => {
         const data = req.body;
             try { 
-            await this.userService.getNameAndMatchPassword(data);
+            const rol  = await this.userService.getNameAndMatchPassword(data);
             const payload = { user:'user' }; // Ajustar campos según tu modelo de usuario
             const secretKey = process.env.JWT_SECRET || 'defaultSecretKey'; // Usar una clave secreta segura
             jwt.sign(payload, secretKey, { expiresIn: '5h' }); // Token válido por 1 hora
             
 
-                this.baseResponse.sendResponse(res,200,'signed');
+                this.baseResponse.sendResponse(res,200,'signed',rol);
             }catch(err:any) { 
                 if(err.message== 'Users no exists') { 
                     this.baseResponse.unauthorized(res,err.message)

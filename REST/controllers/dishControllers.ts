@@ -32,7 +32,7 @@ export class dishControllers {
         }
     }
 
-    public  async addAmountDish(req:Request,res:Response)  {
+    public   addAmountDish = async(req:Request,res:Response) =>  {
         const {id_dish,amount} = req.body
         try { 
             await this.dishHelper.addAmountDish(id_dish,amount);
@@ -44,5 +44,15 @@ export class dishControllers {
 
         }
         
-    }   
+    }
+    public  deleteDishWithId = async(req:Request,res:Response)=> { 
+        try{
+            const {id_dish } = req.body
+            await this.dishHelper.deleteDish(id_dish)
+            this.baseResponse.sendResponse(res,200,'deleted')
+        }catch(err) { 
+            console.error(err);
+            this.baseResponse[400](res,'Error')
+        }
+    }
 }

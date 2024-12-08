@@ -9,7 +9,7 @@ export  interface User {
 }
 
 export interface signIn  { 
-    name:string,
+    ci:string,
     password:string,
 }
 

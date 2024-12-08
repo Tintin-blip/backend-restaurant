@@ -36,14 +36,15 @@ export class UserHelper  {
         }
     }
 
-    public async getNameAndMatchPassword(signIn:signIn) { 
+    public async getNameAndMatchPasswordByCi(signIn:signIn) { 
         try { 
-            let {name,password} = signIn;
-            const query = await prisma.users.findFirstOrThrow({where:{name:name},select: {password:true,rol:true},})
+            let {ci,password} = signIn;
+            const query = await prisma.users.findFirstOrThrow({where:{ci:parseInt(ci)},select: {password:true,rol:true},})
             if(query == null ){ 
                 return Error('Users no exists')
             }
-            this.auth.passwordMatch(password,query.password);
+            await this.auth.passwordMatch(password,query.password);
+           
             return query.rol
             
         }catch(err:any) { 

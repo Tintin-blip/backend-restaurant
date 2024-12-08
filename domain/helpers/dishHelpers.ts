@@ -53,8 +53,7 @@ export class dishHelper {
                 amount:true
             }
         }) 
-
-        if(currentAmount?.amount || currentAmount?.amount == undefined) { 
+        if(!currentAmount?.amount || currentAmount?.amount == undefined) { 
             throw new Error('No hay cantidad')
         }
 
@@ -93,7 +92,7 @@ export class dishHelper {
         }
     }
     
-    public async getAmountDishToId(arr: Array<string>){ 
+    public async getAmountDishToId(arr: Array<string>) { 
         try { 
             const numbers: number[] = arr.map(number => parseInt(number,10))
             
@@ -119,4 +118,17 @@ export class dishHelper {
             throw err
         }
     } 
+
+    public async deleteDish(id_dish:number): Promise <void> { 
+        try {
+            await prisma.dish.delete( { 
+                where: { 
+                    id:id_dish
+                }
+            })
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
 }

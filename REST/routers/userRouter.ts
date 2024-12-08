@@ -16,7 +16,7 @@ const loginLimiter = rateLimit( {
 
 routerUser.post('/user/sign',
     loginLimiter,
-    check("name","name is required").notEmpty().isString(),
+    check("ci","ci is required").notEmpty().isNumeric().isInt(),
     check("password","password is required").notEmpty().isString(),
     validateFields,
     users.signInController)

@@ -254,7 +254,79 @@ export class orderHelper {
         }
         }
  
+    public async ordersSelectDelivery() { 
+        try{ 
+            const orders = await prisma.orders.findMany({    
+                select: { 
+                id:true,
+                status:true,
+                ci:true,
+                date:true,
+                order_type:true,
+                clients_online: { 
+                    select: { 
+                        tlf:true,
+                        address:true,
+                        localization:true,
+                        name:true
+                    }
+                },
+                order_dish: { 
+                    select: {
+                        
+                        dish: { 
+                            
+                            select: { 
+                                name:true,
+                                price:true
+                            }
+                        }
+                    }
+                },
+                payment: { 
+                    select: { 
+                        method:true,
+                        ref_:true
+                    }
+                }
+                
+            },
+            where: {
+                payment:{
+                    status:'Confirmado'
+                },
+                AND: {
+                    status:{
+                        in: ['En vía']
+                    }
+                }
+               },
+        });
+
+        const result = orders.map(order => {
+
+            const { order_dish } = order; // Destructura para mayor claridad
         
+            return {
+                ...order,
+                clients_online: order.clients_online ? {
+                    tlf: order.clients_online.tlf,
+                    address: order.clients_online.address,
+                    localization:order.clients_online.localization,
+                    name:order.clients_online.name
+                } : undefined,
+                order_dish: countOccurrences(order_dish)
+            };
+
+        })
+      
+        return result;
+    
+        }catch (error) {
+            console.error("Error creating order:", error);
+            throw error; // Maneja el error según tu lógica
+        }
+    }
 
     public async orderClientOnline(idOrder:number) { 
         try {

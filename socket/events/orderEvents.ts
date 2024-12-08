@@ -42,6 +42,17 @@ export class orderEvent {
         
         }
     }
+    public async getOrderDelivery() { 
+        try{
+            const orders = await this.orderHelper.ordersSelectDelivery();
+            this.io.emit("server:orders-delivery",orders);
+
+         }catch(err) { 
+            console.error(err);
+            this.socket.emit('server:error', 'Error al obtener');
+        
+        }
+    }
 
     public async confirmRef(orderData:{idOrder:number}) { 
         try{
@@ -49,7 +60,7 @@ export class orderEvent {
             console.log('El socket (admin)',this.socket.id,'va a verificar el ref del id',idOrder)
             await this.orderHelper.verifyRef(idOrder);
             await this.getOrderKitchen();
-        
+            await this.getOrder();
             await this.orderUpdateStatusToClient(idOrder);
          }catch(err) { 
             console.error(err);
@@ -123,6 +134,7 @@ export class orderEvent {
             const {idOrder} = orderData
             await this.orderHelper.updateOrderStatusToDelivery(idOrder);
             await this.orderUpdateStatusToClient(idOrder);
+            await this.getOrder();
 
         }catch(err) {
             console.error(err)
@@ -136,6 +148,7 @@ export class orderEvent {
             const {idOrder} = orderData
             await this.orderHelper.updateOrderToFinished(idOrder);
             await this.orderUpdateStatusToClient(idOrder);
+            await this.getOrder();
             this.cache.del(idOrder)
 
         }catch(err) {

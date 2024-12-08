@@ -10,6 +10,11 @@ export const orderEvents = async(socket:Socket,io:any) => {
 // Fetch all orders and emit a JSON response with all data
 socket.on('client:orders-request', async () => await orderEvents.getOrder());
 
+
+// Fetch all orders and emit a JSON response with all data of "Delivery"
+// This socket emit "server:orders-delivery"
+socket.on('client:orders-delivery-request', async () => await orderEvents.getOrderDelivery());
+
 // Create a new order using orderData.
 // Once created, emits 'server:orders-online' to update all orders
 // and 'server:upgrade-order' to the specific client with the changes status

@@ -22,6 +22,15 @@ export interface Dish {
     category:string,
     img?:string
 }
+
+export interface DishEdit {
+    name:string,
+    price:number,
+    description:string,
+    amount:number,
+    category:string,
+    img?:string
+}
 export interface OrderDish{
     dish?: {
         name?: string | null;

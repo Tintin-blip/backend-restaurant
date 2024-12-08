@@ -55,4 +55,17 @@ export class dishControllers {
             this.baseResponse[400](res,'Error')
         }
     }
+
+    public editDishWithId = async(req:Request,res:Response) => {
+        try {
+            const {id_dish} = req.body
+            const dish = req.body
+            await this.dishHelper.updateDish(id_dish,dish)
+            this.baseResponse.sendResponse(res,200,'edited')
+
+        }catch(err) {
+            console.error(err);
+            this.baseResponse[400](res,'Error')
+        }
+    }
 }

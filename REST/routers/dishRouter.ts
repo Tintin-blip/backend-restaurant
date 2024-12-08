@@ -24,10 +24,12 @@ routerDish.post('/dish/create',
 routerDish.patch('/dish/add_amount',
     check("id_dish","id_dish is required").notEmpty().isInt(),
     check("amount","amount is required").notEmpty().isInt(),
+    validateFields,
     dish.addAmountDish);
 
 routerDish.delete('/dish/delete', 
     check("id_dish","id_dish is required").notEmpty().isNumeric().isInt(),
+    validateFields,
     dish.deleteDishWithId
 )
 
@@ -37,6 +39,7 @@ routerDish.put('/dish/edit',
     check("description","description is required").notEmpty().isString().isLength({max:100}),
     check("category","category is required").notEmpty().isString().isLength({max:30}),
     check("img").optional().isLength({max:255}),
+    validateFields,
     dish.editDishWithId
 )
 

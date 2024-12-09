@@ -134,6 +134,7 @@ export class orderEvent {
             const {idOrder} = orderData
             await this.orderHelper.updateOrderStatusToDelivery(idOrder);
             await this.orderUpdateStatusToClient(idOrder);
+            await this.getOrderDelivery();
             await this.getOrder();
 
         }catch(err) {

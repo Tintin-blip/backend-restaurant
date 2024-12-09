@@ -121,11 +121,18 @@ export class dishHelper {
 
     public async deleteDish(id_dish:number): Promise <void> { 
         try {
+
+            await prisma.order_dish.deleteMany( { 
+                where: { 
+                    id_dish:id_dish
+                }
+            })
             await prisma.dish.delete( { 
                 where: { 
                     id:id_dish
                 }
             })
+
         } catch (err) {
             console.error(err);
             throw err;

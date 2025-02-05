@@ -1,13 +1,13 @@
-import express, {Request, request,Response,response } from 'express';
+import  {Request, Response } from 'express';
 import { UserHelper} from '../helpers/userHelpers';
 import { User } from '../../domain/models/interfaces';
-import {  baseResponse } from '../messages/messagesRes';
+import {  BaseResponse } from '../messages/messagesRes';
 import jwt from 'jsonwebtoken'
-export class controlersUser  {
+export class ControlersUser  {
     private userService
     private baseResponse
     constructor() { 
-        this.baseResponse = new baseResponse()
+        this.baseResponse = new BaseResponse()
         this.userService = new UserHelper()
     }
 
@@ -63,4 +63,4 @@ export class controlersUser  {
             
         }
 }
-export  default controlersUser
+export  default ControlersUser

@@ -1,8 +1,8 @@
 import { Socket } from "socket.io";
-import { dishEvents } from "../events/dishEvents";
+import { DishEvents } from "../events/dishEvents";
 
 export const dishRequest = async(socket:Socket,io:any) => {
-    const dishEvent = new dishEvents(socket,io)
+    const dishEvent = new DishEvents(socket,io)
 
     socket.on('client:requestDish', async () =>  await dishEvent.emitAllDish() ) 
 

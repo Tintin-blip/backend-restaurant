@@ -1,4 +1,3 @@
-import { order_dish } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 
 export  interface User { 
@@ -8,7 +7,7 @@ export  interface User {
     rol:string
 }
 
-export interface signIn  { 
+export interface SignIn  { 
     ci:string,
     password:string,
 }

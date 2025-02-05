@@ -1,10 +1,10 @@
 
-import  express,{ request,response } from "express";
-import {dishControllers} from '../controllers/dishControllers'
+import  express from "express";
+import {DishControllers} from '../controllers/dishControllers'
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validateFields";
 const routerDish = express.Router()
-const dish = new dishControllers()
+const dish = new DishControllers()
 
 routerDish.get('/dish/', dish.getAll);
 

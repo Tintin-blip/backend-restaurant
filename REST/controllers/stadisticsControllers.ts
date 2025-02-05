@@ -1,14 +1,14 @@
 import  {Response,Request}  from "express";
-import { stadisticsHelper } from "../helpers/stadisticsHelpers";
-import  { baseResponse} from '../messages/messagesRes';
+import { StadisticsHelper } from "../helpers/stadisticsHelpers";
+import  { BaseResponse} from '../messages/messagesRes';
 
 
-export class stadisticsController { 
-    private stadisticsHelper:stadisticsHelper;
-    private baseResponse:baseResponse;
+export class StadisticsController { 
+    private stadisticsHelper:StadisticsHelper;
+    private baseResponse:BaseResponse;
     constructor() {
-        this.stadisticsHelper = new stadisticsHelper();
-        this.baseResponse = new baseResponse();
+        this.stadisticsHelper = new StadisticsHelper();
+        this.baseResponse = new BaseResponse();
 
     } 
 

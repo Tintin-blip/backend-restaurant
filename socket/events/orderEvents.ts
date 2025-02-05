@@ -1,22 +1,22 @@
 import { Socket } from "socket.io";
-import { orderHelper } from "../helpers/orderHelpers";
-import { dishHelper } from "../../domain/helpers/dishHelpers";
+import { OrderHelper } from "../helpers/orderHelpers";
+import { DishHelper } from "../../domain/helpers/dishHelpers";
 import NodeCache from "node-cache";
 
-export class orderEvent { 
+export class OrderEvent { 
     private orderHelper;
     private socket:Socket;
     private io;
-    private dishHelper:dishHelper
+    private dishHelper:DishHelper
     private cache:NodeCache
     
 
     constructor(socket:any,io:any,cache:NodeCache) {
         this.cache = cache;
-        this.orderHelper = new orderHelper(this.cache);
+        this.orderHelper = new OrderHelper(this.cache);
         this.socket  = socket;
         this.io = io;
-        this.dishHelper = new dishHelper()
+        this.dishHelper = new DishHelper()
     }
 
     public async getOrder() { 

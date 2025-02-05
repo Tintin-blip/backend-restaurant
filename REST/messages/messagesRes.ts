@@ -1,5 +1,5 @@
 
-export class baseResponse  { 
+export class BaseResponse  { 
     public async sendResponse(res: any, status: number, message: string, data?: any) {
         res.status(status).json({
             message,
@@ -24,4 +24,4 @@ export class baseResponse  {
         });
     }
 } 
-export default baseResponse
+export default BaseResponse

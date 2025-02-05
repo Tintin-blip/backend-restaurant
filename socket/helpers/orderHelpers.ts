@@ -3,7 +3,7 @@ import { Decimal } from '@prisma/client/runtime/library'; // Importa Decimal de 
 import { DishSummary, OrderDish, OrderOnline } from "../../domain/models/interfaces";
 import NodeCache from "node-cache";
 const prisma = new PrismaClient()
-export class orderHelper { 
+export class OrderHelper { 
     cache:NodeCache
     constructor(cache:NodeCache) {
         this.cache = cache

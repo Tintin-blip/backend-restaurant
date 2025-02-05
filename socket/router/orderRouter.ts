@@ -1,11 +1,11 @@
 import { Socket } from "socket.io";
-import { orderEvent } from "../events/orderEvents";
+import { OrderEvent } from "../events/orderEvents";
 import { cache } from "../../app";
 import {idOrderSchema, orderCreateSchema,ciSchema} from '../middlewares/schemaOrders'
 import { validateFields } from "../middlewares/validateSchemas";
 
 export const orderEvents = async(socket:Socket,io:any) => {
-    const orderEvents = new orderEvent(socket,io,cache)
+    const orderEvents = new OrderEvent(socket,io,cache)
     
 // Fetch all orders and emit a JSON response with all data
 socket.on('client:orders-request', async () => await orderEvents.getOrder());

@@ -1,6 +1,5 @@
-import  express,{ request,response } from "express";
+import  express from "express";
 import controlersUser from '../controllers/userControllers'
-import { Auth } from "../auth";
 import { check } from "express-validator";
 import {validateFields} from '../middlewares/validateFields'
 import {rateLimit} from 'express-rate-limit'

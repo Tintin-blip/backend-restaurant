@@ -1,10 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { number } from "joi";
 const prisma = new PrismaClient()
 
 
-export class stadisticsHelper { 
-    constructor() {}
+export class StadisticsHelper { 
 
     public async countClients() {
         try{
@@ -87,8 +85,7 @@ export class stadisticsHelper {
             console.log(profit)
             const validIdDish: number[] = profit
             .map(order => order.id_dish) // Mapea para obtener solo los id_order
-            .filter((id): id is number => id !== null); // Filtra los valores nulos
- // para mañana 
+            .filter((id): id is number => id !== null); // Filtra los valores nulos para mañana 
 
             
 

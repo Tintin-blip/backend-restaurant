@@ -1,14 +1,14 @@
 import  {Response,Request}  from "express";
-import { dishHelper } from "../../domain/helpers/dishHelpers";
-import  { baseResponse} from '../messages/messagesRes';
+import { DishHelper } from "../../domain/helpers/dishHelpers";
+import  { BaseResponse} from '../messages/messagesRes';
 
 
-export class dishControllers { 
-    private dishHelper:dishHelper;
-    private baseResponse:baseResponse;
+export class DishControllers { 
+    private dishHelper:DishHelper;
+    private baseResponse:BaseResponse;
     constructor() {
-        this.dishHelper = new dishHelper();
-        this.baseResponse = new baseResponse();
+        this.dishHelper = new DishHelper();
+        this.baseResponse = new BaseResponse();
 
     }
     public getAll = async (req: Request, res: Response)=> {

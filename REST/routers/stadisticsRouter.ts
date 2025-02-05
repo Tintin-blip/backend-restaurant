@@ -1,8 +1,8 @@
 
-import  express,{ request,response } from "express";
-import { stadisticsController } from "../controllers/stadisticsControllers";
+import  express from "express";
+import { StadisticsController } from "../controllers/stadisticsControllers";
 const routerStadistics = express.Router()
-const stadistics = new stadisticsController()
+const stadistics = new StadisticsController()
 
 
 routerStadistics.get('/stadistcs/dashboard/admin',stadistics.stadistcAdmin)

@@ -1,12 +1,9 @@
-import { dish, PrismaClient } from '@prisma/client'
+import {  PrismaClient } from '@prisma/client'
 import { Dish, DishEdit } from '../models/interfaces';
 const prisma = new PrismaClient()
 
-export class dishHelper { 
+export class DishHelper { 
 
-    constructor() {
-       
-    }
     
     public async getAllDish(){ 
         try { 

@@ -1,13 +1,13 @@
 import { Socket } from "socket.io";
-import {dishHelper} from '../../domain/helpers/dishHelpers'
+import {DishHelper} from '../../domain/helpers/dishHelpers'
 
-export class dishEvents { 
+export class DishEvents { 
     private dishHelper;
     public socket:Socket;
     public io;
 
     constructor(socket:any,io:any) {
-        this.dishHelper = new dishHelper();
+        this.dishHelper = new DishHelper();
         this.socket  = socket
         this.io = io;
 

@@ -51,7 +51,7 @@ export interface OrderOnline {
     order_type?:string
     ci?:number
     order_dish?:DishSummary[];
-    total_price?:Number;
+    total_price?:number;
 }
 export interface ClientOnline { 
     tlf:number,

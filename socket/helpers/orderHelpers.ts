@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Decimal } from '@prisma/client/runtime/library'; // Importa Decimal de Prisma
+import { Decimal } from '@prisma/client/runtime/library'; 
 import { DishSummary, OrderDish, OrderOnline } from "../../domain/models/interfaces";
 import NodeCache from "node-cache";
 const prisma = new PrismaClient()

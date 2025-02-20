@@ -1,7 +1,7 @@
 import {  PrismaClient } from '@prisma/client'
 import { Dish, DishEdit } from '../models/interfaces';
 const prisma = new PrismaClient()
-
+// Repository pattern
 export class DishHelper { 
 
     

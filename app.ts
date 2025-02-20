@@ -1,10 +1,10 @@
 import { Server } from "./server";
-import { orderHelper} from "./socket/helpers/orderHelpers";
+import { OrderHelper} from "./socket/helpers/orderHelpers";
 import NodeCache from "node-cache";
 export const cache = new NodeCache();
 
 const server = new Server(cache);
-const orderHelpers = new orderHelper(cache)
+const orderHelpers = new OrderHelper(cache)
 
 server.listen();
 

@@ -1,5 +1,5 @@
 
-import { signIn, User } from '../../domain/models/interfaces'
+import { SignIn, User } from '../../domain/models/interfaces'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 import {Auth} from '../auth'
@@ -36,9 +36,9 @@ export class UserHelper  {
         }
     }
 
-    public async getNameAndMatchPasswordByCi(signIn:signIn) { 
+    public async getNameAndMatchPasswordByCi(SignIn:SignIn) { 
         try { 
-            let {ci,password} = signIn;
+            let {ci,password} = SignIn;
             const query = await prisma.users.findFirstOrThrow({where:{ci:parseInt(ci)},select: {password:true,rol:true},})
             if(query == null ){ 
                 return Error('Users no exists')
